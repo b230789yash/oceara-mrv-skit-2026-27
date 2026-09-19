@@ -1,255 +1,383 @@
-# 🌊 Oceara - Blue Carbon MRV & Registry Platform
+# 🌊 Oceara MRV
+## Blockchain-Based Blue Carbon Registry & MRV System
 
-> Digital MRV & Registry Platform for Blue Carbon Projects. Measure, track, and verify mangrove and coastal restoration using satellite data, AI, and blockchain-backed registries.
+**SKIT Final Year Project | Academic Session 2026–27**
 
-## 🔗 **Live Website**
+Oceara MRV is a technology-driven platform designed to support the transparent, verifiable, and secure management of blue carbon projects through blockchain, remote sensing, artificial intelligence, and data analytics.
 
-**🌐 Visit:** [https://oceara-web-platform-1.vercel.app/](https://oceara-web-platform-1.vercel.app/)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Oceara/oceara-web-platform)  
-[![Deploy with Vercel (Yash5274)](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Yash5274/oceara-web-platform)
-
-**🏆 Built for Smart India Hackathon 2025**
+The platform focuses on improving the monitoring, reporting, and verification (MRV) of blue carbon ecosystems such as mangroves, seagrass meadows, and tidal wetlands.
 
 ---
 
-## 🚀 **Quick Deploy to Vercel**
+## 🎓 Academic Information
 
-**Click the button above** or follow these steps:
-
-### **Deploy with Yash5274 (your account)**
-
-1. **Create the repo on GitHub:** Go to [github.com/new](https://github.com/new), name it `oceara-web-platform`, create it (don’t add README).
-2. **Push this project:**
-   ```bash
-   cd oceara-simple-deploy
-   git push yash main
-   ```
-   (If you haven’t added the remote: `git remote add yash https://github.com/Yash5274/oceara-web-platform.git`)
-3. **Deploy on Vercel:** [vercel.com/new](https://vercel.com/new) → Import **Yash5274/oceara-web-platform** → Deploy.
-
-### **Option 1: One-Click Deploy**
-1. Click the "Deploy with Vercel" button above
-2. Connect your GitHub account
-3. Click "Deploy"
-4. Done! Your site is live 🎉
-
-### **Option 2: Manual Deploy**
-1. Go to https://vercel.com/new
-2. Import repository: `Oceara/oceara-web-platform`
-3. Click "Deploy"
-4. Wait 2 minutes
-5. Your site is live! 🌊
-
-### **🔓 Give yourself full access (Wallet, Buy, Marketplace)**
-
-By default, the platform shows **MRV-only** to the public (no wallet, no buy/sell). To see all features (wallet, marketplace, buy credits):
-
-1. **Vercel:** Project → **Settings** → **Environment Variables**
-2. Add:
-   - **Name:** `NEXT_PUBLIC_FULL_ACCESS_EMAILS`
-   - **Value:** your email (e.g. `you@example.com`). For multiple users use comma-separated: `you@example.com,other@example.com`
-3. **Redeploy** the project (Deployments → ⋮ → Redeploy).
-
-Sign in with that email (Google or demo) and you’ll see Wallet, Buy Credits, and full marketplace. Other users will only see verified projects and “Request MRV / Fund Project”.
+| Field | Details |
+|---|---|
+| Institution | Swami Keshvanand Institute of Technology, Management & Gramothan |
+| Department | Computer Science & Engineering — Artificial Intelligence |
+| Academic Session | 2026–27 |
+| Project Type | Final Year Project |
+| Project Mentor | Mr. Sushant Singh |
+| Project Domain | Blockchain, AI/ML, Remote Sensing, Data Engineering |
 
 ---
 
-## ✨ **Features**
+## 👥 Project Team
 
-### **🌍 Interactive 3D Earth**
-- Realistic NASA-quality textures
-- Custom GLSL shaders with day/night cycle
-- Figure-8 orbital animation
-- 40-particle spiral effects
-- Triple ring system
-- Color-changing atmosphere
-
-### **🔐 Authentication System**
-- Email & Password login
-- Phone OTP verification
-- Social login (Google, Facebook, GitHub, Twitter, Apple)
-- **Demo Mode** - Skip login for instant access
-
-### **🌴 Project Owner**
-- Register projects, pin location, submit details
-- Satellite imagery & ML-based analysis
-- View project status (Pending / Verified)
-
-### **🏛️ Institution / Program**
-- View verified projects (read-only)
-- Download MRV reports
-- Request MRV / Fund Project (no buying/selling by default)
-- Interactive 3D globe with project markers
-
-### **📍 Real Project Data**
-- Sundarbans (West Bengal): 250 ha, 1,250 credits
-- Kerala Backwaters: 180 ha, 890 credits
-- Andaman Islands: 320 ha, 1,600 credits
-- Gujarat Coastal: 200 ha, 1,000 credits
+| Name | Role | Responsibilities |
+|---|---|---|
+| Yash Mathur | Blockchain & Web3 | Smart Contract Development & System Architecture |
+| Vineet | AI / Computer Vision | Remote Sensing Pipelines & ML Biomass Models |
+| Mohd. Nomaan | Data Science & Data Engineering | Data Pipeline Engineering & Analytics |
+| Yuvika Halwai | UI/UX Design & Frontend Development | Frontend Web Dashboard & UI/UX Design |
 
 ---
 
-## 🛠️ **Tech Stack**
+## 🎯 Project Objectives
 
-- **Framework:** Next.js 14 (App Router)
-- **Language:** TypeScript 5.3
-- **Styling:** Tailwind CSS 3.3
-- **3D Graphics:** Three.js + React Three Fiber
-- **Animations:** Framer Motion
-- **Maps:** Google Maps Embed API
+- Develop a digital registry for blue carbon projects.
+- Enable transparent and traceable carbon project records.
+- Integrate blockchain technology for data integrity.
+- Use remote sensing data to monitor blue carbon ecosystems.
+- Apply machine learning to estimate biomass and carbon storage.
+- Provide a centralized dashboard for project monitoring.
+- Support structured monitoring, reporting, and verification workflows.
+- Improve accessibility to project data for relevant stakeholders.
 
 ---
 
-## 💻 **Local Development**
+## 🌱 What Is Blue Carbon?
+
+Blue carbon refers to carbon captured and stored by coastal and marine ecosystems, including:
+
+- Mangrove forests
+- Seagrass meadows
+- Tidal marshes
+- Coastal wetlands
+
+These ecosystems play an important role in climate regulation, biodiversity conservation, and coastal protection.
+
+Oceara MRV aims to provide a digital infrastructure for monitoring and documenting the carbon-related activities of these ecosystems.
+
+---
+
+## 🏗️ Core System Components
+
+### 1. Blockchain-Based Registry
+
+- Secure project registration
+- Tamper-evident records
+- Transparent project history
+- Smart contract integration
+- Traceable project-related transactions
+
+### 2. Remote Sensing & Satellite Analysis
+
+- Satellite imagery integration
+- Ecosystem monitoring
+- Vegetation and land-cover analysis
+- Geospatial data processing
+- Monitoring of ecosystem changes
+
+### 3. AI/ML-Based Carbon Estimation
+
+- Biomass estimation
+- Machine learning-based analysis
+- Carbon-stock estimation
+- Data-driven ecosystem assessment
+- Model-based prediction workflows
+
+### 4. Monitoring, Reporting & Verification
+
+- Structured project data collection
+- Monitoring records
+- Verification workflows
+- Project-level reporting
+- Evidence-based documentation
+
+### 5. Interactive Web Dashboard
+
+- Project overview
+- Data visualization
+- Geospatial maps
+- Analytics dashboards
+- Project status tracking
+- User-friendly interface
+
+---
+
+## 🧰 Technology Stack
+
+### Frontend
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Three.js
+- Recharts
+
+### Backend & Database
+
+- Node.js
+- Supabase
+- PostgreSQL
+- Firebase
+
+### Blockchain & Web3
+
+- Solidity
+- Smart Contracts
+- MetaMask
+- Web3 Integration
+
+### AI/ML & Data Processing
+
+- Python
+- TensorFlow
+- PyTorch
+- Computer Vision
+- Remote Sensing Pipelines
+
+### Maps & Geospatial Tools
+
+- Mapbox
+- Google Maps
+- Satellite Data Sources
+
+### Development & Deployment
+
+- Git
+- GitHub
+- Vercel
+- Docker
+- GitHub Actions
+
+---
+
+## 📁 Project Structure
+
+```text
+SKIT FINAL YEAR PROJECT/
+│
+├── app/                    # Application routes and pages
+├── components/             # Reusable UI components
+├── public/                 # Static assets
+├── scripts/                # Utility and testing scripts
+├── docs/                   # Project documentation
+│   ├── DEVELOPMENT_WORKFLOW.md
+│   ├── MRV_DATA_MODEL.md
+│   ├── REMOTE_SENSING_PIPELINE.md
+│   ├── SYSTEM_ARCHITECTURE.md
+│   ├── TEAM_RESPONSIBILITIES.md
+│   └── UI_UX_AUDIT.md
+│
+├── package.json
+├── next.config.js
+├── tailwind.config.js
+└── README.md
+```
+
+> The structure may evolve as the project develops.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Ensure that the following tools are installed:
+
+- Node.js
+- npm
+- Git
+- A code editor such as Visual Studio Code
+
+### 1. Clone the Repository
 
 ```bash
-# Install dependencies
+git clone https://github.com/b230789yash/oceara-mrv-skit-2026-27.git
+cd oceara-mrv-skit-2026-27
+```
+
+### 2. Install Dependencies
+
+```bash
+npm ci
+```
+
+If `npm ci` cannot be used because the lockfile is unavailable or outdated, use:
+
+```bash
 npm install
+```
 
-# Run development server
+### 3. Configure Environment Variables
+
+Create a `.env.local` file in the project root.
+
+Add the required environment variables based on the services used by your local setup.
+
+> Never commit API keys, private keys, passwords, or other secrets to GitHub.
+
+### 4. Start the Development Server
+
+```bash
 npm run dev
+```
 
-# Open browser
+Open the local application at:
+
+```text
 http://localhost:3000
 ```
 
----
+### 5. Create a Production Build
 
-## 📂 **Project Structure**
-
+```bash
+npm run build
 ```
-oceara-simple-deploy/
-├── app/
-│   ├── page.tsx                 # Landing page with 3D Earth
-│   ├── auth/
-│   │   ├── login/page.tsx      # Login page
-│   │   └── signup/page.tsx     # Signup page
-│   ├── landowner/page.tsx      # Landowner dashboard
-│   └── buyer/page.tsx          # Buyer dashboard
-├── components/
-│   ├── RealisticEarth.tsx      # 3D Earth with shaders
-│   └── EarthWithProjects.tsx   # Globe with markers
-├── public/
-│   └── earth/                   # Earth textures
-└── package.json
+
+### 6. Run the Production Server
+
+```bash
+npm run start
 ```
 
 ---
 
-## 🎨 **Screenshots**
+## 🌿 Git Workflow
 
-### Landing Page
-- 3D Earth with interactive role cards
-- Hover effects with color changes
-- Demo mode access
+Each team member should work on a separate feature branch.
 
-### Dashboards
-- Landowner: Google Maps, project management
-- Buyer: Interactive globe, marketplace
+### Create a New Branch
 
----
+```bash
+git checkout main
+git pull origin main
+git checkout -b feature/your-name
+```
 
-## 🎯 **Demo Mode**
+### Save Your Changes
 
-No login required! Click the **"Demo User"** button on login/signup pages to instantly explore:
-- ✅ Full dashboard access
-- ✅ All features enabled
-- ✅ Perfect for demonstrations
-- ✅ No credentials needed
+```bash
+git add .
+git commit -m "feat: describe your change"
+```
 
----
+### Push Your Branch
 
-## 📊 **Build Stats**
+```bash
+git push -u origin feature/your-name
+```
 
-- **Routes:** 8 pages
-- **Bundle Size:** 117-125 KB per page
-- **Build Time:** ~30 seconds
-- **Lighthouse Score:** 95+ (Production)
+### Development Guidelines
 
----
-
-## 🌟 **Highlights**
-
-- 🌍 **Realistic Earth** with NASA textures
-- 🎨 **Unique animations** (figure-8, spiral particles)
-- 👤 **Demo mode** for instant access
-- 🗺️ **Google Maps** integration
-- 📍 **Real GPS** coordinates for projects
-- 💫 **60 FPS** smooth animations
-- 📱 **Fully responsive** design
-- ✨ **Glass morphism** UI
+- Do not work directly on the `main` branch.
+- Keep commits focused and descriptive.
+- Pull the latest changes before starting new work.
+- Do not commit environment files or secrets.
+- Test your changes before creating a pull request.
+- Review other team members' code when possible.
+- Keep documentation updated.
 
 ---
 
-## 🔗 **Links**
+## 📚 Project Documentation
 
-- **🌐 Live Website:** [https://oceara-web-platform-1.vercel.app/](https://oceara-web-platform-1.vercel.app/)
-- **💻 GitHub Repository:** [https://github.com/Oceara/oceara-web-platform](https://github.com/Oceara/oceara-web-platform)
-- **📚 Documentation:** [FEATURES.md](./FEATURES.md)
-- **🚀 Deployment Guide:** [DEPLOY_TO_VERCEL.md](./DEPLOY_TO_VERCEL.md)
+Detailed project documentation is available in the `docs/` directory.
 
----
-
-## 📝 **License**
-
-MIT License - Built for Smart India Hackathon 2025
-
----
-
-## 🏆 **Smart India Hackathon 2025**
-
-### **Problem Statement**
-Blue Carbon Ecosystem Management & Carbon Credit Marketplace
-
-### **Solution Highlights**
-- ✅ **Advanced 3D Web Graphics** - NASA-quality Earth with GLSL shaders
-- ✅ **Real-World Data** - Actual mangrove conservation projects across India
-- ✅ **Complete User Flow** - Landowner → Admin Verification → Buyer Purchase
-- ✅ **ML/AI Integration** - Satellite imagery analysis for carbon credit calculation
-- ✅ **Blockchain Ready** - Token minting and credit tracking infrastructure
-- ✅ **Production Ready** - Deployed on Vercel with 99.9% uptime
-
-### **Innovation**
-- 🌍 **Interactive 3D Globe** with real GPS-mapped mangrove projects
-- 🤖 **AI-Powered Verification** for automated carbon credit assessment
-- 💳 **Complete Marketplace** with payment gateway integration
-- 📊 **Admin Dashboard** with ML model override and audit logs
-- 🗺️ **Google Maps Integration** for satellite imagery verification
+| Document | Description |
+|---|---|
+| `DEVELOPMENT_WORKFLOW.md` | Development, branching, and contribution workflow |
+| `MRV_DATA_MODEL.md` | Proposed data entities and relationships |
+| `REMOTE_SENSING_PIPELINE.md` | Remote sensing and biomass-estimation workflow |
+| `SYSTEM_ARCHITECTURE.md` | High-level system architecture |
+| `TEAM_RESPONSIBILITIES.md` | Team roles and ownership areas |
+| `UI_UX_AUDIT.md` | UI/UX observations and improvement areas |
 
 ---
 
-## 👥 **Team Oceara**
+## 🔐 Security Guidelines
 
-Building solutions for blue carbon ecosystem management and climate change mitigation.
-
----
-
-## 🚀 **Get Started**
-
-### **Quick Access (No Setup Required)**
-1. **Visit:** [https://oceara-web-platform-1.vercel.app/](https://oceara-web-platform-1.vercel.app/)
-2. **Click any role card** (Landowner / Buyer / Administrator)
-3. **Use Demo Mode** - Click "Demo User Access" button
-4. **Explore all features** instantly! 🎉
-
-### **Deploy Your Own**
-1. **Deploy:** Click the Vercel button at the top
-2. **Explore:** Use demo mode to test features
-3. **Customize:** Fork and modify for your needs
-
-**Your platform will be live in 2 minutes!** 🌊
+- Do not upload `.env` or `.env.local` files.
+- Do not expose private blockchain keys.
+- Do not commit service-account credentials.
+- Use environment variables for sensitive configuration.
+- Review third-party API permissions carefully.
+- Validate user input and uploaded data.
+- Keep authentication and authorization logic separate.
+- Never assume that frontend-only restrictions provide security.
 
 ---
 
-## 🌟 **SIH 2025 Submission**
+## 🧪 Testing & Validation
 
-**Team:** Oceara  
-**Category:** Environment & Climate  
-**Track:** Blue Carbon & Carbon Credits  
-**Status:** ✅ Deployed & Live  
-**Website:** [https://oceara-web-platform-1.vercel.app/](https://oceara-web-platform-1.vercel.app/)
+Before submitting a change, contributors should verify:
+
+- The application starts successfully.
+- The modified functionality works as expected.
+- Existing functionality has not been broken.
+- The production build completes successfully.
+- No sensitive information has been exposed.
+- Relevant documentation has been updated.
+
+Available commands include:
+
+```bash
+npm run dev
+npm run build
+npm run start
+npm run test:earth-engine
+```
 
 ---
 
-Made with 💙 for our oceans and mangrove ecosystems | **Smart India Hackathon 2025**
+## 🗺️ Planned Development Areas
+
+The project may evolve through the following stages:
+
+1. Project architecture and requirements analysis
+2. Data model and database design
+3. Frontend dashboard development
+4. Remote sensing pipeline integration
+5. AI/ML biomass estimation
+6. Blockchain registry integration
+7. MRV workflow implementation
+8. System testing and validation
+9. Documentation and academic evaluation
+10. Deployment and demonstration
+
+---
+
+## ⚠️ Project Status
+
+This repository is being developed as an academic final-year project for the 2026–27 session.
+
+Features, integrations, datasets, and technical implementations may change during development.
+
+Any carbon estimates, model outputs, or project records generated by the system must be appropriately validated before being used for real-world decision-making.
+
+---
+
+## 📄 License
+
+This project is developed for academic purposes.
+
+Licensing and usage terms will be finalized by the project team.
+
+---
+
+## 👨‍🏫 Project Mentor
+
+**Mr. Sushant Singh**  
+Department of Computer Science & Engineering — Artificial Intelligence  
+Swami Keshvanand Institute of Technology, Management & Gramothan
+
+---
+
+## 🌊 Project Name
+
+**Oceara MRV — Blockchain-Based Blue Carbon Registry & MRV System**
+
+**Academic Session:** 2026–27

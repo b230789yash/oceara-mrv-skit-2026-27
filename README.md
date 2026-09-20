@@ -380,4 +380,8 @@ Swami Keshvanand Institute of Technology, Management & Gramothan
 
 **Oceara MRV — Blockchain-Based Blue Carbon Registry & MRV System**
 
+<<<<<<< HEAD
 **Academic Session:** 2026–27
+=======
+**Academic Session:** 2026–27
+>>>>>>> origin/main

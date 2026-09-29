@@ -391,14 +391,10 @@ export class GoogleEarthEngineService {
       // Create point geometry
       const point = window.ee.Geometry.Point([coordinates.lng, coordinates.lat])
       const region = point.buffer(Math.sqrt(areaHectares * 10000 / Math.PI)) // Convert hectares to radius in meters
-      
-      // Get Sentinel-2 image
-      const sentinel2 = window.ee.ImageCollection('COPERNICUS/S2_SR')
-        .filterDate('2024-01-01', new Date().toISOString().split('T')[0])
-        .filterBounds(region)
-        .filter(window.ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
-        .sort('system:time_start', false)
-        .first()
+
+
+      // Retrieve the most recent cloud-filtered Sentinel-2 image for vegetation analysis
+      const sentinel2 = this.getLatestSentinel2Image(region)
       
       if (!sentinel2) {
         throw new Error('No suitable Sentinel-2 image found')

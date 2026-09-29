@@ -273,16 +273,9 @@ export class GoogleEarthEngineService {
       // Create point geometry
       const point = window.ee.Geometry.Point([coordinates.lng, coordinates.lat])
       const region = point.buffer(radiusKm * 1000) // Convert km to meters
-      
-      // Get Sentinel-2 collection
-      const sentinel2 = window.ee.ImageCollection('COPERNICUS/S2_SR')
-        .filterDate('2024-01-01', new Date().toISOString().split('T')[0])
-        .filterBounds(region)
-        .filter(window.ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
-        .sort('system:time_start', false) // Most recent first
-      
-      // Get the most recent image
-      const latestImage = sentinel2.first()
+
+      // Get the latest available Sentinel-2 image for the selected region
+      const latestImage = this.getLatestSentinel2Image(region)
       
       if (!latestImage) {
         throw new Error('No recent Sentinel-2 imagery available')

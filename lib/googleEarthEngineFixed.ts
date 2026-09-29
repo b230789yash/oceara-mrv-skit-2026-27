@@ -88,6 +88,18 @@ export class GoogleEarthEngineService {
     }
   }
 
+  private getLatestSentinel2Image(region: any) {
+  return window.ee.ImageCollection('COPERNICUS/S2_SR')
+    .filterDate(
+      '2024-01-01',
+      new Date().toISOString().split('T')[0]
+    )
+    .filterBounds(region)
+    .filter(window.ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+    .sort('system:time_start', false)
+    .first()
+}
+
   /**
    * Store OAuth tokens in localStorage
    */

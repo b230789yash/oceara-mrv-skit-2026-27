@@ -1,0 +1,8 @@
+{
+  "network": "localhost",
+  "chainId": 31337,
+  "contractName": "OcearaMRVRegistry",
+  "contractAddress": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  "deployer": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+  "deploymentTransaction": "0x9d7ce5f9af3ed190b08f88a265fced8dbf80adf449befd3d7de935566d13f243"
+}

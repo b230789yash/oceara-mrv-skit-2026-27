@@ -1,273 +1,271 @@
-/**
- * Blockchain Service for Carbon Credit Tokenization
- * Simulates Web3 interactions with smart contracts
- */
+import { BrowserProvider, Contract, TransactionResponse } from "ethers";
+import { OCEARA_MRV_REGISTRY_ABI } from "@/blockchain/OcearaMRVRegistry.abi";
+
+const CONTRACT_ADDRESS =
+  "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
 export interface Transaction {
-  txHash: string
-  type: 'MINT' | 'TRANSFER' | 'BURN' | 'APPROVE'
-  from: string
-  to: string
-  amount: number
-  timestamp: string
-  status: 'pending' | 'confirmed' | 'failed'
-  blockNumber?: number
-  gasUsed?: string
-  projectId?: number
+  txHash: string;
+  type: 'MINT' | 'TRANSFER' | 'BURN' | 'APPROVE';
+  from: string;
+  to: string;
+  amount: number;
+  timestamp: string;
+  status: 'pending' | 'confirmed' | 'failed';
+  blockNumber?: number;
+  gasUsed?: string;
+  projectId?: number;
 }
 
 export interface WalletInfo {
-  address: string
-  balance: number
-  network: string
-  connected: boolean
+  address: string;
+  balance: number;
+  network: string;
+  connected: boolean;
+  chainId?: number;
+}
+
+export interface ProjectData {
+  projectId: string;
+  owner: string;
+  locationHash: string;
+  createdAt: number;
+  status: number;
+}
+
+export interface MRVData {
+  mrvHash: string;
+  biomass: number;
+  carbonEstimate: number;
+  submittedBy: string;
+  timestamp: number;
 }
 
 class BlockchainService {
-  private transactions: Transaction[] = []
-  private wallet: WalletInfo | null = null
+  private provider: BrowserProvider | null = null;
+  private contract: Contract | null = null;
 
-  /**
-   * Simulate wallet connection
-   */
   async connectWallet(): Promise<WalletInfo> {
-    // Simulate MetaMask connection delay
-    await this.delay(1500)
-
-    const hex = this.generateRandomHex(40)
-    const mockWallet: WalletInfo = {
-      address: '0x' + hex,
-      balance: Math.floor((hex.split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 80) + 20),
-      network: 'Polygon Mumbai Testnet',
-      connected: true
+    if (typeof window === "undefined") {
+      throw new Error("Wallet connection is only available in the browser");
     }
 
-    this.wallet = mockWallet
-    return mockWallet
+    const ethereum = (window as any).ethereum;
+
+    if (!ethereum) {
+      throw new Error("MetaMask is not installed");
+    }
+
+    this.provider = new BrowserProvider(ethereum);
+
+    await this.provider.send("eth_requestAccounts", []);
+
+    const signer = await this.provider.getSigner();
+    const address = await signer.getAddress();
+    const network = await this.provider.getNetwork();
+    const balance = await this.provider.getBalance(address);
+
+    this.contract = new Contract(
+      CONTRACT_ADDRESS,
+      OCEARA_MRV_REGISTRY_ABI,
+      signer
+    );
+
+    return {
+      address,
+      balance: Number(balance) / 1e18,
+      network: network.name,
+      connected: true,
+      chainId: Number(network.chainId),
+    };
   }
 
-  /**
-   * Disconnect wallet
-   */
   disconnectWallet(): void {
-    this.wallet = null
+    this.provider = null;
+    this.contract = null;
   }
 
-  /**
-   * Get current wallet info
-   */
   getWallet(): WalletInfo | null {
-    return this.wallet
+    return null;
   }
 
-  /**
-   * Mint carbon credits as NFTs
-   */
-  async mintCredits(
-    projectId: number,
-    amount: number,
-    recipientAddress: string
-  ): Promise<Transaction> {
-    if (!this.wallet) {
-      throw new Error('Wallet not connected')
-    }
-
-    const tx: Transaction = {
-      txHash: '0x' + this.generateRandomHex(64),
-      type: 'MINT',
-      from: '0x0000000000000000000000000000000000000000', // Null address for minting
-      to: recipientAddress,
-      amount,
-      timestamp: new Date().toISOString(),
-      status: 'pending',
-      projectId
-    }
-
-    this.transactions.push(tx)
-
-    // Simulate blockchain confirmation
-    await this.delay(3000)
-    
-    tx.status = 'confirmed'
-    tx.blockNumber = 5000000 + (projectId * 12345) % 1000000
-    tx.gasUsed = (0.001 + (amount % 100) / 100000).toFixed(6)
-
-    return tx
-  }
-
-  /**
-   * Transfer carbon credits between addresses
-   */
-  async transferCredits(
-    to: string,
-    amount: number,
-    projectId?: number
-  ): Promise<Transaction> {
-    if (!this.wallet) {
-      throw new Error('Wallet not connected')
-    }
-
-    const tx: Transaction = {
-      txHash: '0x' + this.generateRandomHex(64),
-      type: 'TRANSFER',
-      from: this.wallet.address,
-      to,
-      amount,
-      timestamp: new Date().toISOString(),
-      status: 'pending',
-      projectId
-    }
-
-    this.transactions.push(tx)
-
-    // Simulate blockchain confirmation
-    await this.delay(2500)
-    
-    tx.status = 'confirmed'
-    tx.blockNumber = 5000000 + (amount * 999 + (projectId ?? 0)) % 1000000
-    tx.gasUsed = (0.001 + (amount % 50) / 100000).toFixed(6)
-
-    return tx
-  }
-
-  /**
-   * Approve spending of credits
-   */
-  async approveCredits(
-    spender: string,
-    amount: number
-  ): Promise<Transaction> {
-    if (!this.wallet) {
-      throw new Error('Wallet not connected')
-    }
-
-    const tx: Transaction = {
-      txHash: '0x' + this.generateRandomHex(64),
-      type: 'APPROVE',
-      from: this.wallet.address,
-      to: spender,
-      amount,
-      timestamp: new Date().toISOString(),
-      status: 'pending'
-    }
-
-    this.transactions.push(tx)
-
-    await this.delay(2000)
-    
-    tx.status = 'confirmed'
-    tx.blockNumber = 5000000 + (amount * 777) % 1000000
-    tx.gasUsed = (0.001 + (amount % 30) / 100000).toFixed(6)
-
-    return tx
-  }
-
-  /**
-   * Get transaction history
+  /*
+   * Legacy UI compatibility.
+   * The old wallet screen expects transaction history.
+   * Registry transactions will be added here as we integrate the UI.
    */
   getTransactions(): Transaction[] {
-    return [...this.transactions].reverse() // Most recent first
+    return [];
   }
 
-  /**
-   * Get single transaction by hash
-   */
-  getTransaction(txHash: string): Transaction | undefined {
-    return this.transactions.find(tx => tx.txHash === txHash)
+  getTransaction(_txHash: string): Transaction | undefined {
+    return undefined;
   }
 
-  /**
-   * Verify transaction on blockchain
-   */
-  async verifyTransaction(txHash: string): Promise<boolean> {
-    await this.delay(1000)
-    const tx = this.getTransaction(txHash)
-    return tx?.status === 'confirmed'
+  async verifyTransaction(_txHash: string): Promise<boolean> {
+    return false;
   }
 
-  /**
-   * Get credit balance for an address
-   */
-  async getCreditBalance(address: string): Promise<number> {
-    await this.delay(500)
-    
-    // Calculate based on transactions
-    let balance = 0
-    this.transactions.forEach(tx => {
-      if (tx.status === 'confirmed') {
-        if (tx.to === address) {
-          balance += tx.amount
-        }
-        if (tx.from === address && tx.type !== 'APPROVE') {
-          balance -= tx.amount
-        }
-      }
-    })
-    
-    return Math.max(0, balance)
+  async getCreditBalance(_address: string): Promise<number> {
+    return 0;
   }
 
-  /**
-   * Get blockchain explorer URL
-   */
   getExplorerUrl(txHash: string): string {
-    return `https://mumbai.polygonscan.com/tx/${txHash}`
+    return `http://127.0.0.1:8545/tx/${txHash}`;
   }
 
-  /**
-   * Estimate gas for transaction
-   */
-  async estimateGas(type: 'MINT' | 'TRANSFER' | 'APPROVE'): Promise<string> {
-    await this.delay(300)
-    
-    const gasEstimates = {
-      MINT: '0.012',
-      TRANSFER: '0.008',
-      APPROVE: '0.005'
-    }
-    
-    return gasEstimates[type]
+  async registerProject(
+    projectId: string,
+    locationHash: string
+  ) {
+    this.ensureContract();
+
+    const tx: TransactionResponse =
+      await this.contract!.registerProject(
+        projectId,
+        locationHash
+      );
+
+    const receipt = await tx.wait();
+
+    return {
+      txHash: receipt?.hash ?? tx.hash,
+      projectId,
+      status: "confirmed",
+    };
   }
 
-  // Helper methods
-  private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms))
+  async submitMRV(
+    projectId: string,
+    mrvHash: string,
+    biomass: number,
+    carbonEstimate: number
+  ) {
+    this.ensureContract();
+
+    const tx: TransactionResponse =
+      await this.contract!.submitMRV(
+        projectId,
+        mrvHash,
+        biomass,
+        carbonEstimate
+      );
+
+    const receipt = await tx.wait();
+
+    return {
+      txHash: receipt?.hash ?? tx.hash,
+      projectId,
+      status: "confirmed",
+    };
   }
 
-  private generateRandomHex(length: number): string {
-    let result = ''
-    const characters = '0123456789abcdef'
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length))
-    }
-    return result
+  async verifyProject(projectId: string) {
+    this.ensureContract();
+
+    const tx: TransactionResponse =
+      await this.contract!.verifyProject(projectId);
+
+    const receipt = await tx.wait();
+
+    return {
+      txHash: receipt?.hash ?? tx.hash,
+      projectId,
+      status: "verified",
+    };
   }
 
-  /**
-   * Get contract address (mock)
-   */
+  async rejectProject(projectId: string) {
+    this.ensureContract();
+
+    const tx: TransactionResponse =
+      await this.contract!.rejectProject(projectId);
+
+    const receipt = await tx.wait();
+
+    return {
+      txHash: receipt?.hash ?? tx.hash,
+      projectId,
+      status: "rejected",
+    };
+  }
+
+  async getProject(
+    projectId: string
+  ): Promise<ProjectData> {
+    this.ensureContract();
+
+    const result =
+      await this.contract!.getProject(projectId);
+
+    return {
+      projectId: result[0],
+      owner: result[1],
+      locationHash: result[2],
+      createdAt: Number(result[3]),
+      status: Number(result[4]),
+    };
+  }
+
+  async getMRV(
+    projectId: string
+  ): Promise<MRVData> {
+    this.ensureContract();
+
+    const result =
+      await this.contract!.getMRV(projectId);
+
+    return {
+      mrvHash: result[0],
+      biomass: Number(result[1]),
+      carbonEstimate: Number(result[2]),
+      submittedBy: result[3],
+      timestamp: Number(result[4]),
+    };
+  }
+
+  async isVerifier(address: string): Promise<boolean> {
+    this.ensureContract();
+
+    return await this.contract!.verifiers(address);
+  }
+
   getContractAddress(): string {
-    return '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb'
+    return CONTRACT_ADDRESS;
   }
 
-  /**
-   * Get network info
-   */
+  getProvider(): BrowserProvider | null {
+    return this.provider;
+  }
+
   getNetworkInfo() {
     return {
-      name: 'Polygon Mumbai Testnet',
-      chainId: 80001,
-      rpcUrl: 'https://rpc-mumbai.maticvigil.com',
-      blockExplorer: 'https://mumbai.polygonscan.com',
+      name: "Hardhat Local",
+      chainId: 31337,
+      rpcUrl: "http://127.0.0.1:8545",
+      blockExplorer: "http://127.0.0.1:8545",
       nativeCurrency: {
-        name: 'MATIC',
-        symbol: 'MATIC',
-        decimals: 18
-      }
+        name: "Ether",
+        symbol: "ETH",
+        decimals: 18,
+      },
+    };
+  }
+
+  async estimateGas(
+    _type: 'MINT' | 'TRANSFER' | 'APPROVE'
+  ): Promise<string> {
+    return "0";
+  }
+
+  private ensureContract() {
+    if (!this.contract) {
+      throw new Error(
+        "Wallet not connected. Connect MetaMask first."
+      );
     }
   }
 }
 
-// Export singleton instance
-export const blockchainService = new BlockchainService()
-
+export const blockchainService =
+  new BlockchainService();

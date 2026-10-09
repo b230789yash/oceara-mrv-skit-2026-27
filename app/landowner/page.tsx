@@ -467,12 +467,31 @@ export default function LandownerDashboard() {
                     <span className="text-gray-400">Credits:</span>
                     <span className="text-green-400 font-semibold">{project.creditsAvailable}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Status:</span>
-                    <span className={`font-semibold ${project.verified ? 'text-green-400' : 'text-yellow-400'}`}>
-                      {project.status}
-                    </span>
+                                                                                                            <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Area:</span>
+                      <span className="text-white font-semibold">{project.area}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Credits:</span>
+                      <span className="text-green-400 font-semibold">{project.creditsAvailable}</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="text-gray-400">Status:</span>
+                      <span
+                        className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${
+                          project.verified
+                            ? 'border-green-500/40 bg-green-500/15 text-green-300'
+                            : 'border-amber-500/40 bg-amber-500/15 text-amber-300'
+                        }`}
+                      >
+                        {project.status}
+                      </span>
+                    </div>
                   </div>
+                  <button className="w-full mt-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold transition-all">
+                    View Details
+                  </button>
                 </div>
                 <button className="w-full mt-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold transition-all">
                   View Details

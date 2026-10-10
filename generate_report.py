@@ -130,6 +130,8 @@ def p(text, style):
 
 def generate(interval="weekly"):
     people, timeline, logs, scope = collect(interval)
+    # Keep current-period work separate from historical project contributions.
+    all_people, _, all_logs, _ = collect("final")
     repo, branch = repo_info()
     stamp = dt.date.today().isoformat()
     title = {"weekly": "Weekly Progress Report (Form-3)", "monthly": "Monthly Progress Report (Form-3)", "final": "Final Project Evaluation Report"}[interval]
@@ -151,7 +153,7 @@ def generate(interval="weekly"):
         pct = v["commits"] / total * 100 if total else 0
         rows.append([p(name, cell), p(f"{v['commits']} ({pct:.1f}%)", cell), p(f"+{v['added']:,}", cell), p(f"-{v['deleted']:,}", cell), p(f"{v['added']-v['deleted']:,}", cell), p(f"{len(v['days'])}", cell)])
     if not people:
-        rows.append([p("No commits found in this period.", cell), "-", "-", "-", "-", "-"])
+        rows.append([p("No individual commits found in this reporting window; see the cumulative appendix for previously committed work.", cell), "-", "-", "-", "-", "-"])
     table = Table(rows, colWidths=[145, 75, 65, 65, 60, 75], repeatRows=1)
     table.setStyle(TableStyle([("BACKGROUND", (0,0), (-1,0), colors.HexColor("#1E293B")), ("TEXTCOLOR", (0,0), (-1,0), colors.white), ("FONTNAME", (0,0), (-1,0), "Helvetica-Bold"), ("FONTSIZE", (0,0), (-1,-1), 8), ("GRID", (0,0), (-1,-1), .4, colors.HexColor("#CBD5E1")), ("ALIGN", (1,0), (-1,-1), "CENTER"), ("VALIGN", (0,0), (-1,-1), "MIDDLE")]))
     story += [table, Spacer(1, 8), Paragraph("2. Visual Trends & Volume", section), chart(people, timeline, interval), Spacer(1, 8), Paragraph("3. Detailed Commit Logs & Mentor Evaluation", section)]
@@ -162,6 +164,58 @@ def generate(interval="weekly"):
         lt = Table(log_rows, colWidths=[62, 48, 310, 80], repeatRows=1)
         lt.setStyle(TableStyle([("BACKGROUND", (0,0), (-1,0), colors.HexColor("#475569")), ("TEXTCOLOR", (0,0), (-1,0), colors.white), ("FONTNAME", (0,0), (-1,0), "Helvetica-Bold"), ("FONTSIZE", (0,0), (-1,-1), 7.5), ("GRID", (0,0), (-1,-1), .4, colors.HexColor("#CBD5E1")), ("SPAN", (3,1), (3,len(log_rows)-1)), ("BACKGROUND", (3,1), (3,len(log_rows)-1), colors.HexColor("#FEF3C7")), ("VALIGN", (0,0), (-1,-1), "MIDDLE")]))
         story.append(KeepTogether([p(f"{name} — {len(logs[name])} commit(s)", small), lt, Spacer(1, 6)]))
+
+    # Historical appendix: original dates are preserved; these are not weekly counts.
+    story += [
+        Spacer(1, 10),
+        Paragraph("4. Cumulative Verified Project Contributions (All Available Project Commits)", section),
+        p("This appendix summarizes the non-merge commits reachable from the checked-out branch across the project history. Original commit dates are retained. It supplements, and does not replace, the reporting-window results above.", small)
+    ]
+
+    cumulative_rows = [["Contributor", "Commits", "Active days", "Added", "Deleted", "Net"]]
+    for name in sorted(all_people):
+        v = all_people[name]
+        cumulative_rows.append([
+            p(name, cell), p(v["commits"], cell), p(len(v["days"]), cell),
+            p(f'+{v["added"]:,}', cell), p(f'-{v["deleted"]:,}', cell),
+            p(f'{v["added"] - v["deleted"]:,}', cell)
+        ])
+
+    if len(cumulative_rows) == 1:
+        cumulative_rows.append([p("No committed history found on this branch.", cell), "-", "-", "-", "-", "-"])
+
+    cumulative_table = Table(cumulative_rows, colWidths=[145, 60, 65, 65, 65, 65], repeatRows=1)
+    cumulative_table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#1E293B")),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("GRID", (0, 0), (-1, -1), .4, colors.HexColor("#CBD5E1")),
+        ("ALIGN", (1, 0), (-1, -1), "CENTER"),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE")
+    ]))
+    story += [cumulative_table, Spacer(1, 6), Paragraph("Cumulative Commit Register", section)]
+
+    for name in sorted(all_logs):
+        history_rows = [["Original date", "Commit", "Recorded work / commit message"]]
+        for date, sha, subject in all_logs[name]:
+            history_rows.append([
+                p(date, cell), p(sha, cell), p(subject or "(no message)", cell)
+            ])
+
+        history_table = Table(history_rows, colWidths=[78, 58, 394], repeatRows=1)
+        history_table.setStyle(TableStyle([
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#475569")),
+            ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("GRID", (0, 0), (-1, -1), .4, colors.HexColor("#CBD5E1")),
+            ("VALIGN", (0, 0), (-1, -1), "TOP")
+        ]))
+        story += [
+            p(f"{name} — {len(all_logs[name])} recorded commit(s)", small),
+            history_table,
+            Spacer(1, 6)
+        ]
+
     story += [Spacer(1, 14), Table([[Paragraph("<b>Name:</b> ___________________________<br/><b>Designation:</b> Project Mentor<br/><br/><b>Signature:</b> ________________________", signature), Paragraph("<b>Name:</b> ___________________________<br/><b>Designation:</b> Lab Coordinator<br/><br/><b>Signature:</b> ________________________", signature)]], colWidths=[270,270], style=TableStyle([("VALIGN", (0,0), (-1,-1), "TOP"), ("LEFTPADDING", (0,0), (-1,-1), 0), ("RIGHTPADDING", (0,0), (-1,-1), 0)]))]
     doc.build(story)
     print(f"Generated: {path.name}")

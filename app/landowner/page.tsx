@@ -147,19 +147,19 @@ export default function LandownerDashboard() {
     }
   }
 
-// Submit registration
-const handleSubmit = async () => {
-  const validationErrors = validateProjectInput({
-    name: projectName,
-    location,
-    area,
-    coordinates,
-  })
+  // Submit registration
+  const handleSubmit = async () => {
+    const validationErrors = validateProjectInput({
+      name: projectName,
+      location,
+      area,
+      coordinates,
+    })
 
-  if (validationErrors.length > 0) {
-    toast.error(validationErrors[0])
-    return
-  }
+    if (validationErrors.length > 0) {
+      toast.error(validationErrors[0])
+      return
+    }
 
     const areaParsed = parseAreaInput(area)
     if (!areaParsed.valid) {

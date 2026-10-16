@@ -517,7 +517,7 @@ export class GoogleEarthEngineService {
       const region = point.buffer(1000) // 1km radius
       
       // Get Sentinel-2 collection for the time period
-      const sentinel2 = window.ee.ImageCollection('COPERNICUS/S2_SR')
+      const sentinel2 = window.ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
         .filterDate(startDate.toISOString().split('T')[0], endDate.toISOString().split('T')[0])
         .filterBounds(region)
         .filter(window.ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 30))

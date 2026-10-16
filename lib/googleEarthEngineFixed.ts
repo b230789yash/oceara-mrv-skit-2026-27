@@ -446,6 +446,7 @@ export class GoogleEarthEngineService {
       const waterPresence = deterministicSeed(coordinates.lat, coordinates.lng, areaHectares, 7) > 0.3
       
       const analysis: VegetationAnalysis = {
+        /*currently generates waterPresence*/
         ndvi: ndviValue,
         evi: eviValue,
         cloudCover,

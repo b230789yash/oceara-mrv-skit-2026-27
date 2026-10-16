@@ -89,7 +89,7 @@ export class GoogleEarthEngineService {
   }
 
   private getLatestSentinel2Image(region: any) {
-  return window.ee.ImageCollection('COPERNICUS/S2_SR')
+  return window.ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
     .filterDate(
       '2024-01-01',
       new Date().toISOString().split('T')[0]

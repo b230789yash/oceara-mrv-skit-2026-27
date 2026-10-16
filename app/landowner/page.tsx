@@ -13,6 +13,7 @@ import EarthEngineSatelliteViewer from '@/components/EarthEngineSatelliteViewer'
 import { getGoogleMapsStaticUrl } from '@/lib/config'
 import { runBlueCarbonEstimation } from '@/lib/estimation'
 import { parseAreaInput } from '@/lib/area'
+import { validateProjectInput } from '@/lib/project-validation'
 
 export default function LandownerDashboard() {
   const { projects, isLoaded, addProject, updateProject, getProjectsByOwner, dbError } = useData()
@@ -146,12 +147,19 @@ export default function LandownerDashboard() {
     }
   }
 
-  // Submit registration
-  const handleSubmit = async () => {
-    if (!projectName || !area.trim() || !location) {
-      toast.error('Please fill all required fields')
-      return
-    }
+// Submit registration
+const handleSubmit = async () => {
+  const validationErrors = validateProjectInput({
+    name: projectName,
+    location,
+    area,
+    coordinates,
+  })
+
+  if (validationErrors.length > 0) {
+    toast.error(validationErrors[0])
+    return
+  }
 
     const areaParsed = parseAreaInput(area)
     if (!areaParsed.valid) {
@@ -194,9 +202,9 @@ export default function LandownerDashboard() {
     const carbonCredits = estimation.estimated_co2_tonnes_per_year
 
     const newProject: Omit<Project, 'id' | 'submittedDate'> = {
-      name: projectName,
+      name: projectName.trim(),
       owner: 'Demo Landowner',
-      location: location,
+      location: location.trim(),
       coordinates: coords,
       area: `${areaNum} hectares`,
       creditsAvailable: carbonCredits,

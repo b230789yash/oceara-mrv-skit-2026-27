@@ -77,6 +77,19 @@ def collect(interval: str):
                 author = None
                 continue
             author = author_name.strip()
+            aliases = {
+                "yash": "Yash Mathur",
+                "yash mathur": "Yash Mathur",
+                "b230789yash": "Yash Mathur",
+                "vineet": "Vineet",
+                "nomaan": "Mohd. Nomaan",
+                "mohd nomaan": "Mohd. Nomaan",
+                "mohd. nomaan": "Mohd. Nomaan",
+                "shinchi": "Mohd. Nomaan",
+                "yuvika": "Yuvika Halwai",
+                "yuvika halwai": "Yuvika Halwai",
+            }
+            author = aliases.get(author.casefold(), author)
             people[author]["commits"] += 1
             people[author]["days"].add(date_text.strip())
             logs[author].append((date_text.strip(), sha.strip(), subject.strip()))
@@ -130,6 +143,18 @@ def p(text, style):
 
 def generate(interval="weekly"):
     people, timeline, logs, scope = collect(interval)
+
+    # Always display the full project team in the weekly Form-3.
+    team = ["Yash Mathur", "Vineet", "Mohd. Nomaan", "Yuvika Halwai"]
+    for name in team:
+        people.setdefault(name, {
+            "commits": 0,
+            "added": 0,
+            "deleted": 0,
+            "days": set(),
+        })
+        logs.setdefault(name, [])
+
     # Keep current-period work separate from historical project contributions.
     all_people, _, all_logs, _ = collect("final")
     repo, branch = repo_info()

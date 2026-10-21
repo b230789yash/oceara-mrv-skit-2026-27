@@ -44,6 +44,7 @@ export interface MRVData {
 class BlockchainService {
   private provider: BrowserProvider | null = null;
   private contract: Contract | null = null;
+  private walletInfo: WalletInfo | null = null;
 
   async connectWallet(): Promise<WalletInfo> {
     if (typeof window === "undefined") {
@@ -71,22 +72,26 @@ class BlockchainService {
       signer
     );
 
-    return {
+    const walletInfo: WalletInfo = {
       address,
       balance: Number(balance) / 1e18,
       network: network.name,
       connected: true,
       chainId: Number(network.chainId),
     };
+
+    this.walletInfo = walletInfo;
+    return walletInfo;
   }
 
   disconnectWallet(): void {
     this.provider = null;
     this.contract = null;
+    this.walletInfo = null;
   }
 
   getWallet(): WalletInfo | null {
-    return null;
+    return this.walletInfo;
   }
 
   /*

@@ -1,5 +1,6 @@
 
 import { googleEarthEngineService } from './googleEarthEngineFixed'
+import { validateSatelliteComparisonInput } from './satelliteComparisonValidation'
 
 export interface SatelliteComparisonResult {
   beforeDate: string
@@ -23,6 +24,19 @@ export async function compareSatelliteVegetation(
   afterStartDate: string,
   afterEndDate: string
 ): Promise<SatelliteComparisonResult> {
+  const validationErrors = validateSatelliteComparisonInput({
+    coordinates,
+    radiusKm,
+    beforeStartDate,
+    beforeEndDate,
+    afterStartDate,
+    afterEndDate,
+  })
+
+  if (validationErrors.length > 0) {
+    throw new Error(validationErrors.join(' '))
+  }
+
   const initialized = await googleEarthEngineService.initialize()
 
   if (!initialized) {

@@ -1,3 +1,4 @@
+import { validateProjectUpdate } from '../lib/project-validation'
 import { expect } from 'chai'
 import { validateProjectInput } from '../lib/project-validation'
 
@@ -53,5 +54,38 @@ describe('validateProjectInput', function () {
 
   it('rejects non-finite coordinates', function () {
     expect(validateProjectInput({ ...validInput, coordinates: { lat: Number.NaN, lng: Number.POSITIVE_INFINITY } })).to.have.length(2)
+  })
+})
+
+
+describe('validateProjectUpdate', function () {
+  it('accepts a valid name-only update', function () {
+    expect(validateProjectUpdate({ name: 'Updated Project' })).to.deep.equal([])
+  })
+
+  it('accepts an empty update', function () {
+    expect(validateProjectUpdate({})).to.deep.equal([])
+  })
+
+  it('rejects a blank supplied name', function () {
+    expect(validateProjectUpdate({ name: '   ' })).to.include('Project name is required.')
+  })
+
+  it('rejects an invalid supplied area', function () {
+    expect(validateProjectUpdate({ area: '-20' })).to.include(
+      'Enter a valid project area greater than zero (for example, 20 or 20 hectares).',
+    )
+  })
+
+  it('rejects invalid supplied coordinates', function () {
+    expect(validateProjectUpdate({ coordinates: { lat: 91, lng: 88.8 } })).to.include(
+      'Latitude must be a number between -90 and 90.',
+    )
+  })
+
+  it('rejects coordinates that are not an object', function () {
+    expect(validateProjectUpdate({ coordinates: 'invalid' })).to.include(
+      'Coordinates must contain valid latitude and longitude values.',
+    )
   })
 })

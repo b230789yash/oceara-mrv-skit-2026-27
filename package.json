@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "deploy": "npm run build",
-    "test:earth-engine": "node scripts/test-earth-engine.js"
+    "test:validation": "hardhat test test/project-validation.test.ts test/satellite-comparison-validation.test.ts"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^2.0.1",

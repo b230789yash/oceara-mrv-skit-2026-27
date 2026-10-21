@@ -328,7 +328,7 @@ Available commands include:
 npm run dev
 npm run build
 npm run start
-npm run test:earth-engine
+npm run test:validation
 ```
 
 ---

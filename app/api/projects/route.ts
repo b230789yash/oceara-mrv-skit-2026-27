@@ -1,3 +1,4 @@
+import { validateProjectInput } from '@/lib/project-validation'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { ProjectsDatabase } from '@/lib/database/projects'
@@ -42,6 +43,28 @@ export async function POST(request: NextRequest) {
     const supabase = createClient()
     const db = new ProjectsDatabase(supabase)
     const body = await request.json()
+    const rawArea = body.area ?? body.ml_analysis?.mangroveArea
+
+    const validationErrors = validateProjectInput({
+      name: body.name,
+      location: body.location,
+      area: rawArea,
+      coordinates: body.coordinates ?? (
+        body.latitude != null || body.longitude != null
+          ? {
+              lat: body.latitude != null ? Number(body.latitude) : undefined,
+              lng: body.longitude != null ? Number(body.longitude) : undefined,
+            }
+          : null
+      ),
+    })
+
+    if (validationErrors.length > 0) {
+      return NextResponse.json(
+        { error: validationErrors[0], errors: validationErrors },
+        { status: 400 }
+      )
+    }
 
     // Normalize body: area must be numeric for DB; status and coordinates
     const areaNum = toNumericArea(body.area ?? body.ml_analysis?.mangroveArea ?? 0)

@@ -1,4 +1,4 @@
-# Week 1: AI and Remote Sensing Audit
+# Sprint 1: AI and Remote Sensing Audit
 
 **Owner:** Vineet  
 **Project:** Oceara MRV
@@ -39,11 +39,11 @@
 - [ ] List missing features and data requirements.
 - [ ] Prepare a prioritised list of next steps.
 
-## Week 1 completion criteria
+## Sprint 1 completion criteria
 
 - [ ] Audit completed.
 - [ ] Existing functionality documented.
 - [ ] Known limitations recorded.
 - [ ] No existing functionality unintentionally changed.
-- [ ] Week 2 tasks identified.
+- [ ] Sprint 2 tasks identified.
 

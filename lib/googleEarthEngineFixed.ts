@@ -409,14 +409,16 @@ export class GoogleEarthEngineService {
       })
       
       // Calculate EVI
-      const evi = sentinel2.expression(
-        '2.5 * ((NIR - RED) / (NIR + 6 * RED - 7.5 * BLUE + 1))',
-        {
-          NIR: sentinel2.select('B8'),
-          RED: sentinel2.select('B4'),
-          BLUE: sentinel2.select('B2')
-        }
-      )
+      
+    const evi = sentinel2.expression(
+   '2.5 * ((NIR - RED) / (NIR + 6 * RED - 7.5 * BLUE + 1))',
+   {
+     NIR: sentinel2.select('B8').multiply(0.0001),
+     RED: sentinel2.select('B4').multiply(0.0001),
+     BLUE: sentinel2.select('B2').multiply(0.0001)
+      }
+     ).rename('EVI');
+
       const eviStats = evi.reduceRegion({
         reducer: window.ee.Reducer.mean(),
         geometry: region,

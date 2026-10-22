@@ -19,7 +19,7 @@ interface EarthEngineImage {
   cloudCover: number
   type: 'true-color' | 'ndvi' | 'false-color' | 'evi'
   resolution: string
-  source: string
+  source: 'live' | 'simulated';
 }
 
 interface VegetationAnalysis {
@@ -296,7 +296,7 @@ export class GoogleEarthEngineService {
         cloudCover: latestImage.get('CLOUDY_PIXEL_PERCENTAGE').getInfo(),
         type: 'true-color',
         resolution: '10m',
-        source: 'Sentinel-2'
+        source: 'live'
       })
       
       // NDVI calculation
@@ -313,7 +313,7 @@ export class GoogleEarthEngineService {
         cloudCover: latestImage.get('CLOUDY_PIXEL_PERCENTAGE').getInfo(),
         type: 'ndvi',
         resolution: '10m',
-        source: 'Sentinel-2'
+        source: 'live'
       })
       
       console.log(`✅ Retrieved ${images.length} Sentinel-2 images`)
@@ -361,7 +361,7 @@ export class GoogleEarthEngineService {
         cloudCover: 10,
         type: 'true-color',
         resolution: '10m',
-        source: 'Google Maps (Fallback)'
+        source: 'simulated'
       }
     ]
   }
@@ -434,7 +434,7 @@ export class GoogleEarthEngineService {
       
       // Calculate health score
       const ndviValue = ndviStats.getInfo().nd || 0
-      const eviValue = eviStats.getInfo().evi || 0
+      const eviValue = eviStats.getInfo().EVI || 0
       const healthScore = Math.min(100, Math.max(0, ((ndviValue + 1) * 50)))
       
       // Determine vegetation density
@@ -551,24 +551,30 @@ export class GoogleEarthEngineService {
             BLUE: image.select('B2')
           }
         )
-        const eviStats = evi.reduceRegion({
-          reducer: window.ee.Reducer.mean(),
-          geometry: region,
-          scale: 10,
-          maxPixels: 1e9
-        })
-        
-        const cloudCover = image.get('CLOUDY_PIXEL_PERCENTAGE').getInfo()
-        const imageDate = new Date(image.get('system:time_start').getInfo()).toISOString().split('T')[0]
-        
-        timeSeries.push({
-          date: imageDate,
-          ndvi: ndviStats.getInfo().nd || 0,
-          evi: eviStats.getInfo().evi || 0,
-          cloudCover,
-          imageSource: 'Sentinel-2'
-        })
+      
+ const eviStats = evi.reduceRegion({
+  reducer: window.ee.Reducer.mean(),
+  geometry: region,
+  scale: 10,
+  maxPixels: 1e9
+});
+
+const cloudCover = image.get('CLOUDY_PIXEL_PERCENTAGE').getInfo();
+const imageDate = new Date(
+  image.get('system:time_start').getInfo()
+).toISOString().split('T')[0];
+
+timeSeries.push({
+  date: imageDate,
+  ndvi: ndviStats.getInfo().nd || 0,
+  evi: eviStats.getInfo().EVI || 0,
+  cloudCover,
+  imageSource: 'Sentinel-2'
+});
+
+
       }
+      
       
       console.log(`✅ Retrieved ${timeSeries.length} time series data points`)
       return timeSeries

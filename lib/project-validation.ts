@@ -63,3 +63,50 @@ export function validateProjectInput(input: ProjectValidationInput): string[] {
 
   return errors
 }
+
+
+/**
+ * Validate only the fields supplied in a partial project update.
+ * Omitted fields are allowed; supplied fields must be valid.
+ */
+export function validateProjectUpdate(input: Record<string, unknown>): string[] {
+  const errors: string[] = []
+
+  if (Object.prototype.hasOwnProperty.call(input, 'name')) {
+    if (typeof input.name !== 'string' || input.name.trim().length === 0) {
+      errors.push('Project name is required.')
+    }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(input, 'location')) {
+    if (typeof input.location !== 'string' || input.location.trim().length === 0) {
+      errors.push('Project location is required.')
+    }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(input, 'area')) {
+    if (!isValidPositiveArea(input.area)) {
+      errors.push(AREA_ERROR)
+    }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(input, 'coordinates') && input.coordinates != null) {
+    const coordinates = input.coordinates
+
+    if (typeof coordinates !== 'object' || Array.isArray(coordinates)) {
+      errors.push('Coordinates must contain valid latitude and longitude values.')
+    } else {
+      const { lat, lng } = coordinates as { lat?: unknown; lng?: unknown }
+
+      if (typeof lat !== 'number' || !Number.isFinite(lat) || lat < -90 || lat > 90) {
+        errors.push('Latitude must be a number between -90 and 90.')
+      }
+
+      if (typeof lng !== 'number' || !Number.isFinite(lng) || lng < -180 || lng > 180) {
+        errors.push('Longitude must be a number between -180 and 180.')
+      }
+    }
+  }
+
+  return errors
+}

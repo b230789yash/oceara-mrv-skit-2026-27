@@ -187,7 +187,17 @@ def generate(interval="weekly"):
         for i, (date, sha, subject) in enumerate(logs[name]):
             log_rows.append([p(date, cell), p(sha, cell), p(subject or "(no message)", cell), p("_____ / 10" if i == 0 else "", cell)])
         lt = Table(log_rows, colWidths=[62, 48, 310, 80], repeatRows=1)
-        lt.setStyle(TableStyle([("BACKGROUND", (0,0), (-1,0), colors.HexColor("#475569")), ("TEXTCOLOR", (0,0), (-1,0), colors.white), ("FONTNAME", (0,0), (-1,0), "Helvetica-Bold"), ("FONTSIZE", (0,0), (-1,-1), 7.5), ("GRID", (0,0), (-1,-1), .4, colors.HexColor("#CBD5E1")), ("SPAN", (3,1), (3,len(log_rows)-1)), ("BACKGROUND", (3,1), (3,len(log_rows)-1), colors.HexColor("#FEF3C7")), ("VALIGN", (0,0), (-1,-1), "MIDDLE")]))
+        
+lt.setStyle(TableStyle([
+    ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#475569")),
+    ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+    ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+    ("FONTSIZE", (0, 0), (-1, -1), 7.5),
+    ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#CBD5E1")),
+    ("BACKGROUND", (3, 1), (3, -1), colors.HexColor("#FEF3C7")),
+    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+]))
+
         story.append(KeepTogether([p(f"{name} — {len(logs[name])} commit(s)", small), lt, Spacer(1, 6)]))
 
     # Historical appendix: original dates are preserved; these are not weekly counts.

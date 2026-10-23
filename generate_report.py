@@ -198,7 +198,11 @@ lt.setStyle(TableStyle([
     ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
 ]))
 
-        story.append(KeepTogether([p(f"{name} — {len(logs[name])} commit(s)", small), lt, Spacer(1, 6)]))
+        story.extend([
+    p(f"{name} — {len(logs[name])} commit(s)", small),
+    lt,
+    Spacer(1, 6),
+])
 
     # Historical appendix: original dates are preserved; these are not weekly counts.
     story += [
